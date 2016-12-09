@@ -1,6 +1,34 @@
-<%@ page pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html>
+%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
+<t:genericPage>
+    <jsp:attribute name="header">
+    </jsp:attribute>
+    <jsp:attribute name="footer">
+    </jsp:attribute>
+    <jsp:body>
+    	<br>
+    	<br>
+    	<br>
+    	<div class="container">
+    		<div class="jumbotron">
+    			<p>DOCKER API - INFORMATIONS</p>
+    		</div>
+    	</div>
+    	<div class="container">
+    		<p>
+    		${messages}
+            </p>
+    	</div>
+    	
+    	<div class="container">
+    		<p>
+    		Liste des containers : 	${info}
+            </p>
+    	</div>
+    </jsp:body>
+</t:genericPage>
+<%-- <html>
     <head>
         <meta charset="utf-8" />
         <title>Test</title>
@@ -29,4 +57,4 @@
     	<script src="webjars/jquery/2.1.4/jquery.js"></script>
   		<script src="webjars/bootstrap/3.3.5/js/bootstrap.js"></script>
     </body>
-</html>
+</html> --%>

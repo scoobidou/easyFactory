@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
- 
 	 <servlet>
 	 	<servlet-name>Test</servlet-name>
 	 	<servlet-class>servlet.Test</servlet-class>
@@ -8,6 +7,38 @@
 	 <servlet-mapping>
 	 	<servlet-name>Test</servlet-name>
 	 	<url-pattern>/toto</url-pattern>
+	 </servlet-mapping>
+	 <servlet>
+	 	<servlet-name>Home</servlet-name>
+	 	<servlet-class>servlet.Home</servlet-class>
+	 </servlet>
+	 <servlet-mapping>
+	 	<servlet-name>Home</servlet-name>
+	 	<url-pattern></url-pattern>
+	 </servlet-mapping>
+	 <servlet>
+	 	<servlet-name>Example</servlet-name>
+	 	<servlet-class>servlet.Example</servlet-class>
+	 </servlet>
+	 <servlet-mapping>
+	 	<servlet-name>Example</servlet-name>
+	 	<url-pattern>/example</url-pattern>
+	 </servlet-mapping>
+	 <servlet>
+	 	<servlet-name>TeamPage</servlet-name>
+	 	<servlet-class>servlet.TeamPage</servlet-class>
+	 </servlet>
+	 <servlet-mapping>
+	 	<servlet-name>TeamPage</servlet-name>
+	 	<url-pattern>/team</url-pattern>
+	 </servlet-mapping>
+	 <servlet>
+	 	<servlet-name>ProjectPage</servlet-name>
+	 	<servlet-class>servlet.ProjectPage</servlet-class>
+	 </servlet>
+	 <servlet-mapping>
+	 	<servlet-name>ProjectPage</servlet-name>
+	 	<url-pattern>/project</url-pattern>
 	 </servlet-mapping>
 	 <servlet>
 	 	<servlet-name>GestionAPIInfo</servlet-name>
@@ -31,5 +62,4 @@
 	    <servlet-name>WebjarsServlet</servlet-name>
 	    <url-pattern>/webjars/*</url-pattern>
 	  </servlet-mapping>
- 
 </web-app>
