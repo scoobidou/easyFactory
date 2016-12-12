@@ -1,11 +1,16 @@
 package beans;
 
-public class User {
+import java.sql.Timestamp;
 
+public class User {
+	
+	private Long id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
+	private Timestamp inscriptionDate;
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -31,6 +36,18 @@ public class User {
 		this.password = password;
 	}
 	
+	public Long getId(){
+		return id;
+	}
+	public Timestamp getInscriptionDate(){
+		return inscriptionDate;
+	}
 	
+	public void setId(Long id){
+		this.id = id;
+	}
+	public void setInscriptionDate(Timestamp timestamp){
+		this.inscriptionDate=timestamp;
+	}
 	
 }

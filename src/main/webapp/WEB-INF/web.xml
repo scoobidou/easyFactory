@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee" 
+         xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
+
+
+	<listener>
+		<listener-class>config.InitialisationDAOFactory</listener-class>
+	</listener>
+
 	 <servlet>
 	 	<servlet-name>Test</servlet-name>
 	 	<servlet-class>servlet.Test</servlet-class>
@@ -7,6 +16,14 @@
 	 <servlet-mapping>
 	 	<servlet-name>Test</servlet-name>
 	 	<url-pattern>/toto</url-pattern>
+	 </servlet-mapping>
+	 <servlet>
+	 	<servlet-name>Signin</servlet-name>
+	 	<servlet-class>servlet.Signin</servlet-class>
+	 </servlet>
+	 <servlet-mapping>
+	 	<servlet-name>Signin</servlet-name>
+	 	<url-pattern>/signin</url-pattern>
 	 </servlet-mapping>
 	 <servlet>
 	 	<servlet-name>Home</servlet-name>
@@ -48,18 +65,14 @@
 	 	<servlet-name>GestionAPIInfo</servlet-name>
 	 	<url-pattern>/api_info</url-pattern>
 	 </servlet-mapping>
-  <!--Webjars Servlet -->
-	  <servlet>
-	    <servlet-name>WebjarsServlet</servlet-name>
-	    <servlet-class>org.webjars.servlet.WebjarsServlet</servlet-class>
-	    <init-param>
-	        <param-name>disableCache</param-name>
-	        <param-value>true</param-value>
-	    </init-param>
-	    <load-on-startup>2</load-on-startup>
-	  </servlet>
-	  <servlet-mapping>
-	    <servlet-name>WebjarsServlet</servlet-name>
-	    <url-pattern>/webjars/*</url-pattern>
-	  </servlet-mapping>
+	 <!--Webjars Servlet-->
+<servlet>
+    <servlet-name>WebjarsServlet</servlet-name>
+    <servlet-class>org.webjars.servlet.WebjarsServlet</servlet-class>
+    <init-param>
+        <param-name>disableCache</param-name>
+        <param-value>true</param-value>
+        <load-on-startup>2</load-on-startup>
+    </init-param>
+</servlet>
 </web-app>

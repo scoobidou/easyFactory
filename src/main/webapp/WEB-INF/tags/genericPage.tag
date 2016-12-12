@@ -1,10 +1,7 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
 <%@attribute name="header" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
-<%@ taglib
-    prefix="c"
-    uri="http://java.sun.com/jsp/jstl/core" 
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
         <meta charset="utf-8" />
         <title>EasyFactory - ${title}</title>
@@ -68,4 +65,8 @@
 	    </div>
 	</c:if>
   </body>
+  
+  	<script src="webjars/jquery/2.1.4/jquery.js"></script>
+	<script src="webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="js/custom.js"></script>
 </html>
