@@ -1,48 +1,80 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import beans.User;
-import dao.DAOFactory;
-import dao.UserDAO;
-import forms.InscriptionForm;
+import org.apache.ibatis.session.SqlSession;
+import org.mindrot.jbcrypt.BCrypt;
 
+import beans.User;
+import mybatis.MyBatisUtils;
+import mybatis.mappers.UserMapper;
+
+
+
+@WebServlet("/home")
 public class Signin extends HttpServlet{
 	
-	public static final String CONF_DAO_FACTORY = "dao";
-	public static final String ATT_USER = "user";
-	public static final String ATT_FORM = "form";
-	public static final String VIEW = "/WEB-INF/views/signinPage.jsp";
-	
-	private UserDAO userDAO;
-	
-	public void init() throws ServletException {
-		/* Récupération de l'instance de notre DAO User */
-		this.userDAO = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getUserDAO();
+	public Signin(){
+		super();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* Affichage de la page d'inscription */
-		this.getServletContext().getRequestDispatcher(VIEW).forward(request,response);
+		
+		request.getRequestDispatcher("WEB-INF/views/home.jsp").forward(request, response);
+		
 	}
 	
 	public void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
-		/* Preparation de la page d'inscription */
-		InscriptionForm form = new InscriptionForm(userDAO);
 		
-		/* Traitement de la requete et récupération du bean existant*/
-		User user = form.signUser(request);
+		//TODO : INSERT GET SESSION
 		
-		/* Stockage du formulaire et du bean dans l'objet request*/
-		request.setAttribute(ATT_FORM, form);
-		request.setAttribute(ATT_USER, user);
+		boolean validationFailed = false;
 		
-		this.getServletContext().getRequestDispatcher( VIEW ).forward( request, response );
+		if(!request.getParameter("user_password").equals(request.getParameter("user_confirmation"))){
+			validationFailed = true;
+			// ERROR MESSAGE SESSION
+		}
+		if (request.getParameter("user_password").length() < 8 ){
+			validationFailed=true;
+		}
+		if (!Pattern.compile("^.+@.+\\..+$").matcher(request.getParameter("user_mail")).matches()){
+			validationFailed = true;
+		}
+		if (validationFailed){
+			response.sendRedirect(request.getContextPath() + response.encodeRedirectURL("/home"));
+			return;
+		}
+		
+		SqlSession sqlSession = MyBatisUtils.getSqlSessionFactory().openSession();
+		
+		// Preparation de l'objet à stocker 
+		
+		User user = new User();
+		
+		user.setEmail(request.getParameter("user_mail"));
+		user.setFirstName(request.getParameter("user_first_name"));
+		user.setLastName(request.getParameter("user_last_name"));
+		user.setPassword(BCrypt.hashpw(request.getParameter("user_password"), BCrypt.gensalt()));
+		
+		try {
+			// Insert user
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			userMapper.insert(user);
+			
+			sqlSession.commit();
+		}finally{
+			sqlSession.close();
+		}
+		
+		response.sendRedirect(request.getContextPath() + response.encodeRedirectUrl("/home"));
 	}
 	
 }

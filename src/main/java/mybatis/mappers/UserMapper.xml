@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.mappers.UserMapper">
+
+	<resultMap type="User" id="UserResult">
+	
+		<id property="id" column="key"/>
+		<result property="lastName" column="user_last_name"/>
+		<result property="FirstName" column="user_first_name"/>
+		<result property="email" column="user_mail"/>
+		<result property="inscriptionDate" column="inscription_date"/>
+	
+	</resultMap>
+	
+	<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO User(user_last_name,user_first_name,user_mail, user_password)
+		VALUES(#{lastName},#{firstName},#{email},#{password})
+	</insert>
+
+</mapper>

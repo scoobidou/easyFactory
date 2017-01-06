@@ -5,10 +5,6 @@
          version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
 
 
-	<listener>
-		<listener-class>config.InitialisationDAOFactory</listener-class>
-	</listener>
-
 	 <servlet>
 	 	<servlet-name>Test</servlet-name>
 	 	<servlet-class>servlet.Test</servlet-class>
@@ -16,14 +12,6 @@
 	 <servlet-mapping>
 	 	<servlet-name>Test</servlet-name>
 	 	<url-pattern>/toto</url-pattern>
-	 </servlet-mapping>
-	 <servlet>
-	 	<servlet-name>Signin</servlet-name>
-	 	<servlet-class>servlet.Signin</servlet-class>
-	 </servlet>
-	 <servlet-mapping>
-	 	<servlet-name>Signin</servlet-name>
-	 	<url-pattern>/signin</url-pattern>
 	 </servlet-mapping>
 	 <servlet>
 	 	<servlet-name>Home</servlet-name>
