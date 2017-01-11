@@ -49,6 +49,15 @@
 				</blockquote>
 				<h4>You can also get this <a href="">script</a> to install.</h4>
 	    	</div>
+	    	<div class="row">
+	    		<div class="col-md-offset-1">
+	    			<form action="tutoDocker_2">
+					    <input type="submit" class="btn btn-primary" value="Next step" />
+					</form>
+	    			<br>
+	    			<br>
+	    		</div>
+	    	</div>
     	</div>
     </jsp:body>
 </t:genericPage>
