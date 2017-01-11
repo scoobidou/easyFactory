@@ -14,14 +14,6 @@
 	 	<url-pattern>/toto</url-pattern>
 	 </servlet-mapping>
 	 <servlet>
-	 	<servlet-name>Home</servlet-name>
-	 	<servlet-class>servlet.Home</servlet-class>
-	 </servlet>
-	 <servlet-mapping>
-	 	<servlet-name>Home</servlet-name>
-	 	<url-pattern></url-pattern>
-	 </servlet-mapping>
-	 <servlet>
 	 	<servlet-name>Example</servlet-name>
 	 	<servlet-class>servlet.Example</servlet-class>
 	 </servlet>
@@ -36,14 +28,6 @@
 	 <servlet-mapping>
 	 	<servlet-name>TeamPage</servlet-name>
 	 	<url-pattern>/team</url-pattern>
-	 </servlet-mapping>
-	 <servlet>
-	 	<servlet-name>ProjectPage</servlet-name>
-	 	<servlet-class>servlet.ProjectPage</servlet-class>
-	 </servlet>
-	 <servlet-mapping>
-	 	<servlet-name>ProjectPage</servlet-name>
-	 	<url-pattern>/project</url-pattern>
 	 </servlet-mapping>
 	 <servlet>
 	 	<servlet-name>GestionAPIInfo</servlet-name>

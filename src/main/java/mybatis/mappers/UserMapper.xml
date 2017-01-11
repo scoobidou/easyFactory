@@ -16,6 +16,7 @@
 	<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO User(user_last_name,user_first_name,user_mail, user_password)
 		VALUES(#{lastName},#{firstName},#{email},#{password})
+		
 	</insert>
 
 </mapper>
