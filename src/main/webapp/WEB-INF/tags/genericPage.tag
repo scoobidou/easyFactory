@@ -51,6 +51,18 @@
 	            	</c:if>
 	        		</div>
 	        	</div>
+	        	<div class="col-md-1">
+        			<div class="navbar-header">
+	        			<c:if test="${!empty sessionScope.user}">
+		                    <%-- Si l'utilisateur existe en session, alors on affiche son adresse email. --%>
+		                    <p class="navbar-brand">Vous êtes connecté(e) avec l'adresse : ${sessionScope.user.email}</p>
+	                	</c:if>
+	                	<c:if test="${empty sessionScope.user}">
+		                    <%-- Si l'utilisateur existe en session, alors on affiche son adresse email. --%>
+		                    <p class="navbar-brand">Non connecté</p>
+	                	</c:if>
+	        		</div>
+	        	</div>
 	        </div>
 		</nav>
       <jsp:invoke fragment="header"/>

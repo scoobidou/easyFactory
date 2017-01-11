@@ -18,5 +18,11 @@
 		VALUES(#{lastName},#{firstName},#{email},#{password})
 		
 	</insert>
+	
+	<select id="getByMail" parameterType="string" resultMap="UserResult">
+		SELECT *
+		FROM user
+		WHERE user_mail = #{email}
+	</select>
 
 </mapper>
