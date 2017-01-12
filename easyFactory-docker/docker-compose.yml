@@ -1,6 +1,6 @@
 version: '2'
 
-# war de tomcat à l'emplacement /home/Documents/jenkins/workspace/pfe-test/target/pfe-test-0.0.1-SNAPSHOT.war 
+# war de tomcat ï¿½ l'emplacement /home/Documents/jenkins/workspace/pfe-test/target/pfe-test-0.0.1-SNAPSHOT.war 
 services: 
   tomcat: 
     image: tomcat:8 
