@@ -1,12 +1,9 @@
 package beans;
 
-import org.junit.Test;
-
 import junit.framework.TestCase;
 
 public class UserTest extends TestCase {
 	
-	@Test
 	public void testGetFirstName() {
 		User user = new User();
 		user.setEmail("email@test.com");

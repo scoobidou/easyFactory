@@ -8,7 +8,7 @@ def gitflow_develop = 'develop'
 def gitflow_release = 'release'
 def gitflow_master = 'master'
 //récupération des résultats des tests surefire sous junit
-def maven_tests_reports = false
+def maven_tests_reports = true
 //URL du serveur sonar
 def sonarServerUrl = 'http://192.168.4.248:8085'
 
