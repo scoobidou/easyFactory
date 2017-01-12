@@ -13,6 +13,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" output="target/easyFactory/WEB-INF/resources" path="src/main/resources"/>
+	<classpathentry excluding="java/" kind="src" path="src/test"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -29,5 +30,6 @@
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
