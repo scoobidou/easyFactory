@@ -1,0 +1,14 @@
+version: '2'
+
+# war de tomcat à l'emplacement /home/Documents/jenkins/workspace/pfe-test/target/pfe-test-0.0.1-SNAPSHOT.war 
+services: 
+  tomcat: 
+    image: tomcat:8 
+    container_name: easyFactory 
+    ports: 
+    - "8091:8080" 
+    volumes: 
+    - /var/lib/docker/volumes/pfe_jenkins-data/_data/workspace/easyFactory/target/easyFactory.war:/usr/local/tomcat/webapps/easyFactory.war
+    - /var/lib/docker/volumes/pfe_jenkins-data/_data/workspace/easyFactory/easyFactory-docker/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+
+# le webapp est disponible http://192.168.4.248:8090/?
