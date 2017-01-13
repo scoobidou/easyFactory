@@ -25,7 +25,7 @@
    		<br>
    		* Tester un appel à l'api
    		<br>
-   		* Test la création du container hello world
+   		* Tester la création du container hello world (via api ou en ssh)
    	</div>
    </jsp:body>
 </t:genericPage>
