@@ -55,7 +55,7 @@ public class Signin extends HttpServlet{
 		
 		SqlSession sqlSession = MyBatisUtils.getSqlSessionFactory().openSession();
 		
-		// Preparation de l'objet à stocker 
+		// Preparation de l'objet stocker 
 		
 		User user = new User();
 		

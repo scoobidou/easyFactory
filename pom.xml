@@ -9,6 +9,7 @@
     <!-- WEB DEPENDENCIES VERSIONS (USED FOR FILTERING AND URL RESOLUTION) -->
     <bootstrap.version>3.3.5</bootstrap.version>
     <jquery.version>2.1.4</jquery.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
  
   </properties>
   <version>0.0.1-SNAPSHOT</version>
