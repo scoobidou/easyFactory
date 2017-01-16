@@ -7,9 +7,20 @@
 	
 		<id property="id" column="key"/>
 		<result property="lastName" column="user_last_name"/>
-		<result property="FirstName" column="user_first_name"/>
+		<result property="firstName" column="user_first_name"/>
 		<result property="email" column="user_mail"/>
 		<result property="inscriptionDate" column="inscription_date"/>
+	
+	</resultMap>
+	
+	<resultMap type="User" id="UserResultWithPassword">
+	
+		<id property="id" column="key"/>
+		<result property="lastName" column="user_last_name"/>
+		<result property="firstName" column="user_first_name"/>
+		<result property="email" column="user_mail"/>
+		<result property="inscriptionDate" column="inscription_date"/>
+		<result property="password" column="user_password"/>
 	
 	</resultMap>
 	
@@ -19,4 +30,10 @@
 		
 	</insert>
 
+	<select id="getUserByMail" parameterType="string" resultMap="UserResultWithPassword">
+		SELECT * 
+		FROM User 
+		WHERE user_mail = #{email}
+	</select>
+	
 </mapper>

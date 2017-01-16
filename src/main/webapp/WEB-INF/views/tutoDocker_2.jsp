@@ -59,9 +59,7 @@
 				<blockquote>
 					<h4>At the first start of Jenkins, a token will be needed. To get this token please write this in your terminal.</h4>
 					<h4><li>docker logs jenkins</li></h4>
-					<div class="panel panel-default ">
-						<img src="images/JenkinsLogs.jpg"/>
-					</div>
+					<img src="images/JenkinsLogs.jpg"/>
 					<h4><li>Select : install suggested plugins</li></h4>
 					<h4><li>Create administrator</li></h4>
 					<h4><li>Create users or use LDAP</li></h4>

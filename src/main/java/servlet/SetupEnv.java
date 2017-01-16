@@ -29,7 +29,7 @@ public class SetupEnv extends HttpServlet {
 			
 			String host = null;
 			
-			host = "manu@192.168.1.16";
+			host = "manu@192.168.1.22";
 			
 			String user = host.substring(0,host.indexOf('@'));
 			host = host.substring(host.indexOf('@')+1);
