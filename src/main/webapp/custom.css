@@ -61,3 +61,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', end
 	background-color:#333333;
 	color:white;
 }
+
+span.custom-ok{
+	color:green;
+	font-size:2em;
+}
+
+span.custom-remove{
+	color:red;
+	font-size:2em;
+}

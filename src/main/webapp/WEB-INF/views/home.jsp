@@ -25,7 +25,7 @@
             <div class="alert alert-danger" role="alert">
 			  ${loginError}
 			</div>
-			<c:remove var="loginInfo" scope="session"/>
+			<c:remove var="loginError" scope="session"/>
 	        </c:if>              	
  			<div class="Absolute-Center is-Responsive">
 				<h1 class="homeTitleContent">Easy Factory</h1>

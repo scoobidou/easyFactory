@@ -54,7 +54,7 @@ public class Login extends HttpServlet {
             sqlSession.close();
         }
 		
-        //On vérifie que le mot de passe crypté correspond au mot de passe donné
+        
         if(user != null && BCrypt.checkpw(request.getParameter("user_password"), user.getPassword())){
 
             //Si oui, on stock les infos de l'utilisateur dans la session
