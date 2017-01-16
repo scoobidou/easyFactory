@@ -60,6 +60,8 @@ public class Login extends HttpServlet {
             //Si oui, on stock les infos de l'utilisateur dans la session
             user.setPassword(null);
             session.setAttribute("user", user);
+            
+            session.setAttribute("loginInfo", "Authentification Ok. Connected to your account");
 
             //On redirige vers l'accueil
             String from = (String) session.getAttribute("from");
@@ -71,7 +73,7 @@ public class Login extends HttpServlet {
             return;
         }else{
             //Sinon, on renvoi vers le login avec un message d'erreur
-            request.setAttribute("loginError", "Email or password incorrect.");
+            session.setAttribute("loginError", "Email or password incorrect.");
             request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
         }
 		

@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <t:genericPage>
     <jsp:attribute name="header">
@@ -12,6 +13,20 @@
     	<br>
     	<br>
     	<div class="container">
+    		<c:if test="${loginInfo != null}">
+            <%-- Si l'utilisateur a reussi a se connecter on affiche un message de succès --%>
+            <div class="alert alert-success" role="alert">
+			 ${loginInfo }
+			</div>
+			<c:remove var="loginInfo" scope="session"/>
+	        </c:if>
+	        <c:if test="${loginError != null}">
+            <%-- Si l'utilisateur a reussi a se connecter on affiche un message de succès --%>
+            <div class="alert alert-danger" role="alert">
+			  ${loginError}
+			</div>
+			<c:remove var="loginInfo" scope="session"/>
+	        </c:if>              	
  			<div class="Absolute-Center is-Responsive">
 				<h1 class="homeTitleContent">Easy Factory</h1>
 				<h4 class="text-center homeTitleContent">Develop, Build, Run, Test and Deploy applications with Docker.</h4>
