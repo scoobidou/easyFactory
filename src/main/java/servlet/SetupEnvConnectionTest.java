@@ -37,7 +37,7 @@ public class SetupEnvConnectionTest extends HttpServlet {
 			
 			String host = null;
 			
-			host = "manu@192.168.1.22";
+			host = "manu@192.168.1.13";
 			
 			String user = host.substring(0,host.indexOf('@'));
 			host = host.substring(host.indexOf('@')+1);
@@ -67,7 +67,7 @@ public class SetupEnvConnectionTest extends HttpServlet {
 		      InputStream in=channel.getInputStream();
 
 		      channel.connect();
-		      httpSession.setAttribute("setupEnv_connectionInfo","Connection to "+host+" established");
+		      httpSession.setAttribute("setupEnv_info","Connection to "+host+" established");
 		      httpSession.setAttribute("setupEnv_step", 1);
 
 		      byte[] tmp=new byte[1024];
@@ -76,7 +76,6 @@ public class SetupEnvConnectionTest extends HttpServlet {
 		          int i=in.read(tmp, 0, 1024);
 		          if(i<0)break;
 		          System.out.print(new String(tmp, 0, i));
-		          System.out.print(channel.getExitStatus());
 		        }
 		        if(channel.isClosed()){
 		          if(in.available()>0) continue; 
@@ -91,7 +90,7 @@ public class SetupEnvConnectionTest extends HttpServlet {
 		    catch(Exception e){
 		      boolean test = e.getCause().toString().contains("java.net.ConnectException");
 		      if (test){
-		    	  httpSession.setAttribute("setupEnv_connectionError", "Unable to connect : "+e.getMessage());
+		    	  httpSession.setAttribute("setupEnv_error", "Unable to connect : "+e.getMessage());
 		    	  httpSession.setAttribute("setupEnv_step", -1);
 		      }
 		    }

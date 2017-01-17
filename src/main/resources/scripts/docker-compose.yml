@@ -1,0 +1,105 @@
+# Docker Compose 
+# Version 0.3
+# PFE Industrialisation logiciel
+
+# IMPROVE:
+# - logs
+# - Security docker https 2376
+# - LDAP
+
+# SONAR PROPERTIES !!!!!!!
+
+# NGINX
+# docker run -d -p nginx:80 -p 443:443 --restart always --name server nginx
+# Pour du reverse proxy !!
+# - Hostname
+# - REVERSE PROXY (Nginx)
+# - NETWORKS (mise en place dans le compose) 
+
+## Les commandes à lancer si vous ne voulez pas utiliser docker compose.
+# docker volume create --name mysql-data
+# docker volume create --name jenkins-data
+# docker volume create --name gitlab-data
+# docker run -d -p 8081:3306 --restart always -e MYSQL_ROOT_PASSWORD=NETWORK -v mysql-data:/var/lib/mysql --name mysql mysql:latest
+# docker run -d -p 8082:80 --link mysql:db --restart always --name phpmyadmin phpmyadmin/phpmyadmin:latest
+# docker run -d -p 8083:3000 --link mysql:db --restart always -v gitlab-data:/var/opt/gitlab -v gitlab-data:/var/log/gitlab -v gitlab-data:/etc/gitlab --name gitlab gitlab/gitlab-ce:latest
+# docker run -d -p 8085:9000 -p 9092:9092 --restart always --name sonar sonarqube:latest
+# docker run -d -p 8084:8080 -p 50000:50000 --link gitlab --link sonar --restart always -v jenkins-data:/var/jenkins_home --name jenkins jenkins:latest
+# docker run -d -p 8086:8080 --link jenkins --link mysql:db --restart always --name tomcat tomcat:latest
+
+# START
+
+version: '2'
+
+services:
+
+   mysql:
+      image: mysql:latest
+      restart: always
+      container_name: mysql
+      environment:
+      - MYSQL_ROOT_PASSWORD=network
+      ports:
+      - "8081:3306"
+      volumes:
+      - mysql-data:/var/lib/mysql
+
+   phpmyadmin:
+      image: phpmyadmin/phpmyadmin:latest
+      restart: always
+      container_name: phpmyadmin
+      ports:
+      - "8082:80"
+      links:
+      - mysql:db
+
+   gitlab:
+      image: gitlab/gitlab-ce:latest
+      restart: always
+      container_name: gitlab
+      ports:
+      - "8083:80"
+      - "8088:443"
+      - "8089:22"
+      volumes:
+      - gitlab-data:/var/opt/gitlab    # For storing application data
+      - gitlab-data:/var/log/gitlab    # For storing logs
+      - gitlab-data:/etc/gitlab        # For storing the GitLab configuration files
+
+   sonar:
+      image: sonarqube:latest
+      restart: always
+      container_name: sonar
+      ports:
+      - "8085:9000"
+      - "9092:9092"
+
+   jenkins:
+      image: jenkins:latest
+      restart: always
+      container_name: jenkins
+      ports:
+      - "8084:8080"
+      - "50000:50000"
+      volumes:
+      - jenkins-data:/var/jenkins_home
+      links:
+      - gitlab
+      - sonar
+
+    tomcat:
+      image: tomcat:latest
+      restart: always
+      container_name: tomcat
+      ports:
+      - "8086:8080"
+      links:
+      - jenkins
+      - mysql
+
+volumes:
+   mysql-data:
+   jenkins-data:
+   gitlab-data:
+
+# END

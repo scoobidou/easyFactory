@@ -47,7 +47,7 @@
 					<li>cd /CHEMIN_ACCES_DOCKER COMPOSER/</li>
 					<li>docker-compose up -d</li>
 				</blockquote>
-				<h4>You can also get this <a href="">script</a> to install.</h4>
+				<h4>You can also get this <a href="scripts/docker_environnement.sh">script</a> to install.</h4>
 	    	</div>
 	    	<div class="row">
 	    		<div class="col-md-offset-1">

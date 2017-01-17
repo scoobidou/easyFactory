@@ -6,6 +6,9 @@
         <title>Test</title>
         <link rel="stylesheet" href="webjars/bootstrap/3.3.5/css/bootstrap.css">
         <link rel="stylesheet" href="cover.css">
+        <script type="text/javascript"
+		    src="http://code.jquery.com/jquery-1.10.1.min.js">
+        </script>
     </head>
     
 <!--     
@@ -56,10 +59,13 @@
           <div class="inner cover">
             <h1 class="cover-heading">Easy Factory</h1>
             <p class="lead perso">Develop, Build, Run, Test and Deploy applications with Docker.</p>
+             <div id="show" align="center"></div>
             <p class="lead">
               <a href="#" class="btn btn-lg btn-secondary">Connect</a>
             </p>
           </div>
+          
+         
 
           <div class="mastfoot">
             <div class="inner">
@@ -138,4 +144,5 @@
 <!--     	<script src="webjars/jquery/2.1.4/jquery.js"></script>
   		<script src="webjars/bootstrap/3.3.5/js/bootstrap.js"></script>
     </body> -->
+    <script src="js/reloadScript.js"></script>
 </html>
