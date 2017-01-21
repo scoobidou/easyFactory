@@ -3,14 +3,14 @@ package beans;
 import junit.framework.TestCase;
 
 public class UserTest extends TestCase {
-	
+
 	public void testGetFirstName() {
 		User user = new User();
 		user.setEmail("email@test.com");
 		user.setFirstName("John");
 		user.setLastName("Doe");
 		user.setPassword("azerty");
-		assertEquals(user.getFirstName(),"John");
+		assertEquals(user.getFirstName(), "John");
 	}
 
 	public void testSetFirstName() {
@@ -19,7 +19,7 @@ public class UserTest extends TestCase {
 		user.setFirstName("John");
 		user.setLastName("Doe");
 		user.setPassword("azerty");
-		assertEquals(user.getFirstName(),"John");
+		assertEquals(user.getFirstName(), "John");
 	}
 
 	public void testGetLastName() {
@@ -28,7 +28,7 @@ public class UserTest extends TestCase {
 		user.setFirstName("John");
 		user.setLastName("Doe");
 		user.setPassword("azerty");
-		assertEquals(user.getLastName(),"Doe");
+		assertEquals(user.getLastName(), "Doe");
 	}
 
 	public void testSetLastName() {
@@ -37,7 +37,7 @@ public class UserTest extends TestCase {
 		user.setFirstName("John");
 		user.setLastName("Doe");
 		user.setPassword("azerty");
-		assertEquals(user.getLastName(),"Doe");
+		assertEquals(user.getLastName(), "Doe");
 	}
 
 	public void testGetEmail() {
@@ -46,7 +46,7 @@ public class UserTest extends TestCase {
 		user.setFirstName("John");
 		user.setLastName("Doe");
 		user.setPassword("azerty");
-		assertEquals(user.getEmail(),"email@test.com");
+		assertEquals(user.getEmail(), "email@test.com");
 	}
 
 	public void testSetEmail() {
@@ -55,7 +55,7 @@ public class UserTest extends TestCase {
 		user.setFirstName("John");
 		user.setLastName("Doe");
 		user.setPassword("azerty");
-		assertEquals(user.getEmail(),"email@test.com");
+		assertEquals(user.getEmail(), "email@test.com");
 	}
 
 	public void testGetPassword() {
@@ -64,7 +64,7 @@ public class UserTest extends TestCase {
 		user.setFirstName("John");
 		user.setLastName("Doe");
 		user.setPassword("azerty");
-		assertEquals(user.getPassword(),"azerty");
+		assertEquals(user.getPassword(), "azerty");
 	}
 
 	public void testSetPassword() {
@@ -73,7 +73,7 @@ public class UserTest extends TestCase {
 		user.setFirstName("John");
 		user.setLastName("Doe");
 		user.setPassword("azerty");
-		assertEquals(user.getPassword(),"azerty");
+		assertEquals(user.getPassword(), "azerty");
 	}
 
 }

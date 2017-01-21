@@ -1,34 +1,34 @@
-/* Définition des variables utilisées */
-// version de maven utilisée, ainsi que son jdk
+/* Dï¿½finition des variables utilisï¿½es */
+// version de maven utilisï¿½e, ainsi que son jdk
 def maven = docker.image('maven:3.3.3-jdk-8');
 // nom de l'application
 def application='easyFactory';
-//nom des différentes branches sur le git
+//nom des diffï¿½rentes branches sur le git
 def gitflow_develop = 'develop'
 def gitflow_release = 'release'
 def gitflow_master = 'master'
-//récupération des résultats des tests surefire sous junit
+//rï¿½cupï¿½ration des rï¿½sultats des tests surefire sous junit
 def maven_tests_reports = true
 //URL du serveur sonar
 def sonarServerUrl = 'http://192.168.4.248:8085'
 
-/* Première étape : 
-	Récupération et clonage du dépot git
-	Récupération de l'image docker de maven
+/* Premiï¿½re ï¿½tape : 
+	Rï¿½cupï¿½ration et clonage du dï¿½pot git
+	Rï¿½cupï¿½ration de l'image docker de maven
 */
 stage 'Checkout & Prepare'
 	node ('slave2') {
 		parallel 'checkout': {
-			//branch = branche du git sélectionné
-			//credentialsId = identifiants du git enregistrés sur le jenkins
-			//url = URL du dépot git
+			//branch = branche du git sÃ©lectionnÃ©
+			//credentialsId = identifiants du git enregistrÃ©s sur le jenkins
+			//url = URL du dÃ©pot git
 			git branch: 'master', credentialsId: 'root', url: 'http://192.168.4.248:8083/root/'+application+'.git'
 		}, 'maven': { 
 		    maven.pull()
 		}
 	}
 
-/* Deuxième étape : 
+/* DeuxiÃ¨me Ã©tape : 
 	Maven lance un build du projet
 */
 stage 'Build'
@@ -38,13 +38,13 @@ stage 'Build'
 				try {
 					sh 'mvn -Dmaven.test.failure.ignore=true -e clean install'
 				} finally {
-					//Si les résultats des tests JUnit sont demandés, il va envoyer les résultats dans le dossier spécifié
+					//Si les rÃ©sultats des tests JUnit sont demandÃ©s, il va envoyer les rÃ©sultats dans le dossier spÃ©cifiÃ©
 					if (maven_tests_reports) {
 						step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
 					}
 				}
 			}
-			//Les tests ne seront pas exécutés sur les fichiers du dossier target, ni logs, mais seront exécutés sur les fichiers du dossier source
+			//Les tests ne seront pas exï¿½cutï¿½s sur les fichiers du dossier target, ni logs, mais seront exï¿½cutï¿½s sur les fichiers du dossier source
 			stash excludes: '*/target, logs', includes: '**', name: 'source'
 		}
 		// a supprimer ?
@@ -53,8 +53,8 @@ stage 'Build'
 		}
 	}
 
-/* Troisième étape : 
-	Analyse de la qualité des fichiers source via maven
+/* Troisiï¿½me ï¿½tape : 
+	Analyse de la qualitï¿½ des fichiers source via maven
 	Utilisation des plugins cobertura et sonar de maven
 */
 stage 'Quality'
@@ -67,9 +67,9 @@ stage 'Quality'
 		}
 	}
 
-/* Quatrième étape :
+/* Quatriï¿½me ï¿½tape :
 	Compilation du projet (fichiers sources) en un fichier .war
-	Si besoin, le .jar est possible aussi, il faut juste le spécifier dans le pom.xml
+	Si besoin, le .jar est possible aussi, il faut juste le spï¿½cifier dans le pom.xml
 */
 stage 'Packaging'
 	node ('master') {
@@ -77,9 +77,9 @@ stage 'Packaging'
 		archive '*/target/*.war'
 	}
 
-/* Cinquième étape :
-	Déploiement de l'application sur un serveur Tomcat (ou autre si besoin)
-	Le fichier docker-compose doit être mis dans le dépot git
+/* Cinquiï¿½me ï¿½tape :
+	Dï¿½ploiement de l'application sur un serveur Tomcat (ou autre si besoin)
+	Le fichier docker-compose doit ï¿½tre mis dans le dï¿½pot git
 */
 stage 'Deploy'
 	node ('master'){

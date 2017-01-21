@@ -84,4 +84,5 @@
   	<script src="webjars/jquery/2.1.4/jquery.js"></script>
 	<script src="webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="js/custom.js"></script>
+	<script src="js/autoWrite.js"></script>
 </html>

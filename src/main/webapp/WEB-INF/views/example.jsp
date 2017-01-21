@@ -7,5 +7,10 @@
     <jsp:attribute name="footer">
     </jsp:attribute>
     <jsp:body>
+    
+    <br>
+    <br>
+    <br>
+    <%@ include file="/WEB-INF/views/forms/setupEnvLogForm.jsp" %>
     </jsp:body>
 </t:genericPage>
