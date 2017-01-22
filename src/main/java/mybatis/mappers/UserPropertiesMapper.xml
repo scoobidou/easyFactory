@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.mappers.UserPropertiesMapper">
+
+	<resultMap type="UserProperties" id="UserPropertiesResult">
+	
+		<id property="id" column="key"/>
+		<id property="idUser" column="id_user"/>
+		<result property="sshUser" column="ssh_user"/>
+		<result property="sshHost" column="ssh_host"/>
+		<result property="sshPassword" column="ssh_password"/>
+		<result property="creationDate" column="creation_date"/>
+		<result property="isDefined" column="is_ssh_defined"
+	
+	</resultMap>
+	
+		<select id="getUserByMail" parameterType="string" resultMap="UserResultWithPassword">
+			SELECT * 
+			FROM User_Properties 
+			WHERE id_user = #{idUser}
+		</select>
+	
+</mapper>
