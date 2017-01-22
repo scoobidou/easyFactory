@@ -15,7 +15,7 @@
 	
 	</resultMap>
 	
-		<select id="getUserByMail" parameterType="string" resultMap="UserResultWithPassword">
+		<select id="getUserProperties" parameterType="string" resultMap="UserPropertiesResult">
 			SELECT * 
 			FROM User_Properties 
 			WHERE id_user = #{idUser}
