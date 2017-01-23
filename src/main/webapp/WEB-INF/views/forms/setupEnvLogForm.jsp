@@ -13,7 +13,11 @@
 		<label>Final result</label>
 		<input id="ssh_host_full" type="text" class="form-control" disabled>
 		 
-		<button class="btn btn-md-primary" type="submit">Save</button> 
+		<label>Remember
+			<input type="checkbox" class="" value="">
+		</label> 
+		     
+		<button class="btn btn-primary" type="submit">Save</button>
 		
 		
 	</div>

@@ -15,6 +15,9 @@
     <%@ include file="/WEB-INF/views/forms/setupEnvLogForm.jsp" %>
     
     <div class="col-md-8">
+    		<div>
+    			<p>${sessionScope.setupEnv_step}</p>
+    		</div>
    			<div class="row">
 	   			<div class="col-md-6">
 	   				<h4>First step : Check connection</h4>
