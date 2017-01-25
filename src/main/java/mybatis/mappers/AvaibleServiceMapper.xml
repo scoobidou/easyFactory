@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.mappers.AvaibleServiceMapper">
+
+	<resultMap type="AvaibleService" id="AvaibleServiceResult">
+	
+		<id property="id" column="id"/>
+		<result property="serviceName" column="service_name"/>
+		<result property="creationDate" column="creation_date"/>
+	
+	</resultMap>
+	
+	<insert id="insert" parameterType="AvaibleService" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO avaible_services(service_name)
+		VALUES(#{serviceName})
+		
+	</insert>
+
+	<select id="getAllAvaibleServices" resultMap="AvaibleServiceResult">
+		SELECT * 
+		FROM avaible_services
+	</select>
+	
+</mapper>
