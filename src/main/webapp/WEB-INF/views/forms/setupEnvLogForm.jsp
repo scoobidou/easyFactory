@@ -1,4 +1,4 @@
-<form class="form-inline" method="post" name="setupEnvLog" action="${pageContext.request.contextPath}/example">
+<form class="form-inline" method="post" name="setupEnvLog" action="${pageContext.request.contextPath}/setupEnv">
 	<div class="form-group">
 	
 		<label>User</label>
@@ -13,11 +13,9 @@
 		<label>Final result</label>
 		<input id="ssh_host_full" type="text" class="form-control" disabled>
 		 
-		<label>Remember
-			<input type="checkbox" class="" value="">
-		</label> 
+		<label class="checkbox-inline"><input type="checkbox" value="remember" name="ssh_checkbox">Remember</label> 
 		     
-		<button class="btn btn-primary" type="submit">Save</button>
+		<button class="btn btn-primary btn-inline" type="submit">Save</button>
 		
 		
 	</div>

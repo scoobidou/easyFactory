@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.ConnectException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,10 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
+
+import beans.User;
+import mybatis.MyBatisUtils;
+import mybatis.mappers.UserPropertiesMapper;
 
 @WebServlet("/setupEnv")
 public class SetupEnv extends HttpServlet {
@@ -30,12 +35,52 @@ public class SetupEnv extends HttpServlet {
 		HttpSession httpSession = request.getSession();
 
 		if (httpSession.getAttribute("user") != null) {
+			if (!"reset".equals(request.getParameter("reset_button"))) {
+				SqlSession sqlSession = MyBatisUtils.getSqlSessionFactory().openSession();
 
-			if (httpSession.getAttribute("setupEnv_step") == null) {
+				beans.UserProperties userProperties = new beans.UserProperties();
+
+				try {
+					UserPropertiesMapper userPropMapper = sqlSession.getMapper(UserPropertiesMapper.class);
+					User user = (User) httpSession.getAttribute("user");
+					userProperties = userPropMapper.getUserPropertiesByUser(user.getId());
+					httpSession.setAttribute("ssh_host", userProperties.getSshHost());
+					httpSession.setAttribute("ssh_user", userProperties.getSshUser());
+					httpSession.setAttribute("ssh_password", userProperties.getSshPassword());
+				} finally {
+					sqlSession.close();
+				}
+				if (userProperties != null) {
+					httpSession.setAttribute("setupEnv_step", 1);
+				}
+
+				if (httpSession.getAttribute("setupEnv_step") == null) {
+					httpSession.setAttribute("setupEnv_step", 0);
+				}
+			} else {
 				httpSession.setAttribute("setupEnv_step", 0);
-			}
+				if (httpSession.getAttribute("ssh_host") != null && httpSession.getAttribute("ssh_password") != null
+						&& httpSession.getAttribute("ssh_host") != null) {
+					httpSession.setAttribute("ssh_host", null);
+					httpSession.setAttribute("ssh_user", null);
+					httpSession.setAttribute("ssh_password", null);
+					
+					SqlSession sqlSession = MyBatisUtils.getSqlSessionFactory().openSession();
 
-			request.setAttribute("title", TITLE);
+					beans.UserProperties userProperties = new beans.UserProperties();
+
+					try {
+						UserPropertiesMapper userPropMapper = sqlSession.getMapper(UserPropertiesMapper.class);
+						User user = (User) httpSession.getAttribute("user");
+						userProperties = userPropMapper.getUserPropertiesByUser(user.getId());
+						System.out.println(userProperties.toString());
+						userPropMapper.deleteUserProperties(userProperties.getId());
+						sqlSession.commit();
+					} finally {
+						sqlSession.close();
+					}
+				}
+			}
 
 			this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 		} else {
@@ -44,41 +89,114 @@ public class SetupEnv extends HttpServlet {
 		}
 	}
 
-	/*
-	 * Need to add control during different step to catch errors.
-	 * Code 1 : first step succes / -1 : connectivity error
-	 * Code 2 : second step sucess / -2 : error during scp
-	 * Code 3 : script execution success / -3 : error during execution
-	 * Code 4 : Container docker creation success / -4 : error during creation
-	 * Code 5 : Remote access to API success / -5 : Remote access to API error
-	 */
-	
-	protected void remoteAction(HttpSession httpSession, String command, String host, String password, String user){
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		HttpSession httpSession = request.getSession();
+
+		if (httpSession.getAttribute("user") != null) {
+
+			if (request.getParameter("ssh_user") != null) {
+				httpSession.setAttribute("ssh_user", request.getParameter("ssh_user"));
+			}
+			if (request.getParameter("ssh_host") != null) {
+				httpSession.setAttribute("ssh_host", request.getParameter("ssh_host"));
+			}
+			if (request.getParameter("ssh_password") != null) {
+				httpSession.setAttribute("ssh_password", request.getParameter("ssh_password"));
+			}
+
+			if (request.getParameter("ssh_password") != null && request.getParameter("ssh_host") != null
+					&& request.getParameter("ssh_user") != null
+					&& httpSession.getAttribute("setupEnv_step").toString().equals("0")) {
+
+				System.out.println(request.getParameter("ssh_checkbox"));
+
+				if ("remember".equals(request.getParameter("ssh_checkbox"))) {
+					// TODO: INSERT THIS SHIT HERE
+				}
+
+				httpSession.setAttribute("setupEnv_step", 1);
+				this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+				return;
+			}
+
+			if (httpSession.getAttribute("setupEnv_step").equals("")) {
+				httpSession.setAttribute("setupEnv_step", 0);
+				this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+				return;
+			} else if (httpSession.getAttribute("setupEnv_step").toString().equals("5")) {
+				httpSession.setAttribute("setupEnv_step", 6);
+				this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+				return;
+				// response.sendRedirect(request.getContextPath() + "/example");
+
+			} else if (httpSession.getAttribute("setupEnv_step").toString().equals("4")) {
+
+				httpSession.setAttribute("setupEnv_step", 5);
+				this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+				return;
+				// response.sendRedirect(request.getContextPath() + "/example");
+
+			} else if (httpSession.getAttribute("setupEnv_step").toString().equals("3")) {
+				remoteAction(httpSession, "./", httpSession.getAttribute("ssh_host").toString(),
+						httpSession.getAttribute("ssh_password").toString(),
+						httpSession.getAttribute("ssh_user").toString());
+				httpSession.setAttribute("setupEnv_step", 4);
+				this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+				return;
+				// response.sendRedirect(request.getContextPath() + "/example");
+
+			} else if (httpSession.getAttribute("setupEnv_step").toString().equals("2")) {
+				remoteAction(httpSession, "scp", httpSession.getAttribute("ssh_host").toString(),
+						httpSession.getAttribute("ssh_password").toString(),
+						httpSession.getAttribute("ssh_user").toString());
+				httpSession.setAttribute("setupEnv_step", 3);
+				this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+				return;
+				// response.sendRedirect(request.getContextPath() + "/example");
+
+			} else if (httpSession.getAttribute("setupEnv_step").toString().equals("1")) {
+				remoteAction(httpSession, "ls", httpSession.getAttribute("ssh_host").toString(),
+						httpSession.getAttribute("ssh_password").toString(),
+						httpSession.getAttribute("ssh_user").toString());
+				httpSession.setAttribute("setupEnv_step", 2);
+				this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+				return;
+				// response.sendRedirect(request.getContextPath() + "/example");
+			}
+
+		} else {
+			httpSession.setAttribute("loginError", "You must be logged to view this resource : Automatic setup");
+			response.sendRedirect(request.getContextPath() + response.encodeRedirectURL("/home"));
+		}
+	}
+
+	public void remoteAction(HttpSession httpSession, String command, String host, String password, String user) {
 		// Initialisation des paramètres.
 		try {
 			JSch jsch = new JSch();
-			
-			host = user + "@" + host;
-			
+
+			System.out.println(host);
+			System.out.println(password);
 			Session session = jsch.getSession(user, host, 22);
-			//Unsecure TODO: change it
+			// Unsecure TODO: change it
 			session.setConfig("StrictHostKeyChecking", "no");
-			
+
 			session.setPassword(password.getBytes());
 			session.connect();
-			
+
 			boolean ptimestamp = false;
 			FileInputStream fis = null;
-			
-			if("scp".equals(command)){
+
+			if ("scp".equals(command)) {
 				String remoteFile = "/home/manu/test.sh";
 				ptimestamp = true;
 				command = "scp " + (ptimestamp ? "-p" : "") + " -t " + remoteFile;
 			}
-			if("./".equals(command)){
-				command = "chmod 755 test.sh; dos2unix test.sh; ./test.sh 192.168.1.13 init";
+			if ("./".equals(command)) {
+				command = "chmod 755 test.sh; dos2unix test.sh; ./test.sh" + host + " " + password + "  init";
 			}
-			
+
 			Channel channel = session.openChannel("exec");
 			((ChannelExec) channel).setCommand(command);
 
@@ -88,9 +206,9 @@ public class SetupEnv extends HttpServlet {
 			InputStream in = channel.getInputStream();
 
 			channel.connect();
-			
+
 			// Command block for scp
-			if(command.contains("scp")){
+			if (command.contains("scp")) {
 				if (checkAck(in) != 0) {
 					httpSession.setAttribute("setupEnv_step", -2);
 					return;
@@ -151,7 +269,7 @@ public class SetupEnv extends HttpServlet {
 				out.close();
 			}
 			// Command block for test connection & script execution.
-			else{
+			else {
 				byte[] tmp = new byte[1024];
 				while (true) {
 					while (in.available() > 0) {
@@ -174,12 +292,12 @@ public class SetupEnv extends HttpServlet {
 			}
 			channel.disconnect();
 			session.disconnect();
-		}catch(Exception e){
+		} catch (Exception e) {
 			boolean test = e.getCause().toString().contains("java.net.ConnectException");
 			if (test) {
 				httpSession.setAttribute("setupEnv_error", "Unable to connect : " + e.getMessage());
 				httpSession.setAttribute("setupEnv_step", -1);
-			}else{
+			} else {
 				httpSession.setAttribute("setupEnv_error", "Unable to connect : " + e.getMessage());
 			}
 		}

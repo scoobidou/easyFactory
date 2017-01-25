@@ -14,6 +14,10 @@
     <br>
     <%@ include file="/WEB-INF/views/forms/setupEnvLogForm.jsp" %>
     
+    <form action="example">
+    	<input type="submit" name="reset_button" value="reset"/>
+    </form>
+    
     <div class="col-md-8">
     		<div>
     			<p>${sessionScope.setupEnv_step}</p>

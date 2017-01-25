@@ -19,6 +19,15 @@ public class Example extends HttpServlet {
 		if (httpSession.getAttribute("setupEnv_step") == null) {
 			httpSession.setAttribute("setupEnv_step", 0);
 		}
+		
+		if("reset".equals(request.getParameter("reset_button"))){
+			httpSession.setAttribute("setupEnv_step", 0);
+			if(httpSession.getAttribute("ssh_host")!=null && httpSession.getAttribute("ssh_password")!=null && httpSession.getAttribute("ssh_host")!=null){
+				httpSession.setAttribute("ssh_host", null);
+				httpSession.setAttribute("ssh_user",null);
+				httpSession.setAttribute("ssh_password",null);
+			}
+		}
 
 		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 
@@ -42,37 +51,44 @@ public class Example extends HttpServlet {
 				&& httpSession.getAttribute("setupEnv_step").toString().equals("0")) {
 			httpSession.setAttribute("setupEnv_step", 1);
 			this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+			return;
 		}
 
 		if (httpSession.getAttribute("setupEnv_step").equals("")) {
 			httpSession.setAttribute("setupEnv_step", 0);
 			this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+			return;
 		} else if (httpSession.getAttribute("setupEnv_step").toString().equals("5")) {
 			httpSession.setAttribute("setupEnv_step", 6);
 			this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+			return;
 			// response.sendRedirect(request.getContextPath() + "/example");
 
 		} else if (httpSession.getAttribute("setupEnv_step").toString().equals("4")) {
 
 			httpSession.setAttribute("setupEnv_step", 5);
 			this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+			return;
 			// response.sendRedirect(request.getContextPath() + "/example");
 
 		} else if (httpSession.getAttribute("setupEnv_step").toString().equals("3")) {
 
 			httpSession.setAttribute("setupEnv_step", 4);
 			this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+			return;
 			// response.sendRedirect(request.getContextPath() + "/example");
 
 		} else if (httpSession.getAttribute("setupEnv_step").toString().equals("2")) {
 
 			httpSession.setAttribute("setupEnv_step", 3);
 			this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+			return;
 			// response.sendRedirect(request.getContextPath() + "/example");
 
 		} else if (httpSession.getAttribute("setupEnv_step").toString().equals("1")) {
 			httpSession.setAttribute("setupEnv_step", 2);
 			this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+			return;
 			// response.sendRedirect(request.getContextPath() + "/example");
 		}
 	}

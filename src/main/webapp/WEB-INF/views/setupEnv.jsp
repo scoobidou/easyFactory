@@ -27,15 +27,17 @@
 		</div>
 		<c:remove var="setupEnv_info" scope="session"/>
     </c:if>
-   		SETUP ENV TEST
-   		<br>
-   		______________________________
-   		<br>
-   		BUT
-   		<br>
-   		_____________________________
-   		<br>
-   		<div class="col-md-8">
+    
+<%@ include file="/WEB-INF/views/forms/setupEnvLogForm.jsp" %>
+    
+    <form action="setupEnv">
+    	<input type="submit" name="reset_button" value="reset"/>
+    </form>
+    
+    <div class="col-md-8">
+    		<div>
+    			<p>${sessionScope.setupEnv_step}</p>
+    		</div>
    			<div class="row">
 	   			<div class="col-md-6">
 	   				<h4>First step : Check connection</h4>
@@ -49,32 +51,9 @@
 	   						<%@ include file="/WEB-INF/views/forms/setupEnv_connectionTest.jsp" %>
 	   					</div>
 	    			</c:if>
-	    			<c:if test="${setupEnv_step == 0}">
+	    			<c:if test="${setupEnv_step == 1}">
 	   					<div class="col-md-1">
 	   						<%@ include file="/WEB-INF/views/forms/setupEnv_connectionTest.jsp" %>
-	   					</div>
-	    			</c:if>
-	    			<c:if test="${setupEnv_step >= 1}">
-	        			<span class="glyphicon glyphicon-ok custom-ok" aria-hidden="true"></span>
-	    			</c:if>
-	   			</div>
-	   		</div>
-	   		<div class="row">
-	   			<div class="col-md-6">
-	   				<h4>Second step : Copy script</h4>
-	   			</div>
-	   			<div class="row">
-					<c:if test="${setupEnv_step == 1}">
-	   					<div class="col-md-1">
-	   						<%@ include file="/WEB-INF/views/forms/setupEnv_copyScript.jsp" %>
-	   					</div>
-	    			</c:if>
-	    			<c:if test="${setupEnv_step == -2}">
-	   					<div class="col-md-1">
-	   						<span class="glyphicon glyphicon-remove custom-remove" aria-hidden="true"></span>
-	   					</div>
-	   					<div class="col-md-1">
-	   						<%@ include file="/WEB-INF/views/forms/setupEnv_copyScript.jsp" %>
 	   					</div>
 	    			</c:if>
 	    			<c:if test="${setupEnv_step >= 2}">
@@ -84,12 +63,12 @@
 	   		</div>
 	   		<div class="row">
 	   			<div class="col-md-6">
-	   				<h4>Third step : Execute installation script</h4>
+	   				<h4>Second step : Copy script</h4>
 	   			</div>
 	   			<div class="row">
 					<c:if test="${setupEnv_step == 2}">
 	   					<div class="col-md-1">
-	   						<%@ include file="/WEB-INF/views/forms/setupEnv_executeScript.jsp" %>
+	   						<%@ include file="/WEB-INF/views/forms/setupEnv_connectionTest.jsp" %>
 	   					</div>
 	    			</c:if>
 	    			<c:if test="${setupEnv_step == -3}">
@@ -97,7 +76,7 @@
 	   						<span class="glyphicon glyphicon-remove custom-remove" aria-hidden="true"></span>
 	   					</div>
 	   					<div class="col-md-1">
-	   						<%@ include file="/WEB-INF/views/forms/setupEnv_executeScript.jsp" %>
+	   						<%@ include file="/WEB-INF/views/forms/setupEnv_connectionTest.jsp" %>
 	   					</div>
 	    			</c:if>
 	    			<c:if test="${setupEnv_step >= 3}">
@@ -107,10 +86,48 @@
 	   		</div>
 	   		<div class="row">
 	   			<div class="col-md-6">
+	   				<h4>Third step : Execute installation script</h4>
+	   			</div>
+	   			<div class="row">
+					<c:if test="${setupEnv_step == 3}">
+	   					<div class="col-md-1">
+	   					<%@ include file="/WEB-INF/views/forms/setupEnv_connectionTest.jsp" %>
+	   					</div>
+	    			</c:if>
+	    			<c:if test="${setupEnv_step == -4}">
+	   					<div class="col-md-1">
+	   						<span class="glyphicon glyphicon-remove custom-remove" aria-hidden="true"></span>
+	   					</div>
+	   					<div class="col-md-1">
+	   						<%@ include file="/WEB-INF/views/forms/setupEnv_connectionTest.jsp" %>
+	   					</div>
+	    			</c:if>
+	    			<c:if test="${setupEnv_step >= 4}">
+	        			<span class="glyphicon glyphicon-ok custom-ok" aria-hidden="true"></span>
+	    			</c:if>
+	   			</div>
+	   		</div>
+	   		<div class="row">
+	   			<div class="col-md-6">
 	   				<h4>Fourth step : Test Docker API</h4>
 	   			</div>
 	   			<div class="row">
-	
+					<c:if test="${setupEnv_step == 4}">
+						<div class="col-md-1">
+	   					<%@ include file="/WEB-INF/views/forms/setupEnv_connectionTest.jsp" %>
+	   					</div>
+	   				</c:if>
+	   				<c:if test="${setupEnv_step == -5}">
+	   					<div class="col-md-1">
+	   						<span class="glyphicon glyphicon-remove custom-remove" aria-hidden="true"></span>
+	   					</div>
+	   					<div class="col-md-1">
+	   						<%@ include file="/WEB-INF/views/forms/setupEnv_connectionTest.jsp" %>
+	   					</div>
+	    			</c:if>
+	    			<c:if test="${setupEnv_step >= 5}">
+	        			<span class="glyphicon glyphicon-ok custom-ok" aria-hidden="true"></span>
+	    			</c:if>
 	   			</div>
 	   		</div>
 	   		<div class="row">
@@ -118,7 +135,22 @@
 	   				<h4>Fifth step : Run test container</h4>
 	   			</div>
 	   			<div class="row">
-	
+					<c:if test="${setupEnv_step == 5}">
+						<div class="col-md-1">
+	   					<%@ include file="/WEB-INF/views/forms/setupEnv_connectionTest.jsp" %>
+	   					</div>
+	   				</c:if>
+	   				<c:if test="${setupEnv_step == -6}">
+	   					<div class="col-md-1">
+	   						<span class="glyphicon glyphicon-remove custom-remove" aria-hidden="true"></span>
+	   					</div>
+	   					<div class="col-md-1">
+	   						<%@ include file="/WEB-INF/views/forms/setupEnv_connectionTest.jsp" %>
+	   					</div>
+	    			</c:if>
+	    			<c:if test="${setupEnv_step >= 6}">
+	        			<span class="glyphicon glyphicon-ok custom-ok" aria-hidden="true"></span>
+	    			</c:if>
 	   			</div>
 	   		</div>
    		</div>
@@ -180,6 +212,5 @@
   				</div>
 			</div>
    		</div>
-   	</div>
    </jsp:body>
 </t:genericPage>

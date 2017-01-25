@@ -6,7 +6,7 @@
 # Script version 0.2
 
 usage(){
-	echo "Usage: $0 HOST init | start | stop | help"
+	echo "Usage: $0 HOST PASSWORD init | start | stop | help"
 	echo "$0 help for more informations"
 	echo "Installation and activation of remote access for docker for Ubuntu distributions"
 	echo "Design for versions 12.04 - 14.04 - 15.10 - 16.04"
@@ -14,8 +14,8 @@ usage(){
 }
 
 help(){
-	echo -e "\n Usage : $0 HOST init | start | stop | help \n"
-	echo -e "Example : $0 192.168.1.13 init"
+	echo -e "\n Usage : $0 HOST PASSWORD init | start | stop | help \n"
+	echo -e "Example : $0 192.168.1.13 network init"
 	echo -e "Example : $0 start "
 	echo -e "Example : $0 stop "
 	echo -e "Example : $0 help \n"
@@ -37,8 +37,8 @@ checkVersion(){
 }
 
 init(){
-	
-	echo 'network' | sudo -S apt-get update -y 
+	PASSWORD=$3
+	echo "$PASSWORD" | sudo -S apt-get update -y 
 	sudo apt-get install apt-transport-https ca-certificates -y 
 	sudo apt-key adv \
                --keyserver hkp://ha.pool.sks-keyservers.net:80 \
@@ -117,19 +117,19 @@ setupDocker(){
 
 
 
-if [ "$#" -ne 2 ] && [ "$1" = "init" ];then
+if [ "$#" -ne 3 ] && [ "$1" = "init" ];then
 	echo "Illegal number of arguments"
 	usage
 	exit 1
-elif [ "$#" -ne 1 ] && [ "$2" != "init" ];then
-	echo "Illegal number of arguments 2"
+elif [ "$#" -ne 1 ] && [ "$3" != "init" ];then
+	echo "Illegal number of arguments 4"
 	usage
 	exit 1
 else
 	if [ "$#" -eq 1 ];then
 		CASE=$1
-	elif [ "$#" -eq 2 ];then
-		CASE="$2"
+	elif [ "$#" -eq 3 ];then
+		CASE="$3"
 		IP_HOST="$1"
 		matchIp=`echo "$IP_HOST" | grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"`
 		if [ -z "$matchIp" ];then
