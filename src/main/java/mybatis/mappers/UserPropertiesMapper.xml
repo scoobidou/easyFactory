@@ -4,21 +4,66 @@
 <mapper namespace="mybatis.mappers.UserPropertiesMapper">
 
 	<resultMap type="UserProperties" id="UserPropertiesResult">
-	
-		<id property="id" column="key"/>
-		<id property="idUser" column="id_user"/>
-		<result property="sshUser" column="ssh_user"/>
-		<result property="sshHost" column="ssh_host"/>
-		<result property="sshPassword" column="ssh_password"/>
-		<result property="creationDate" column="creation_date"/>
-		<result property="isDefined" column="is_ssh_defined"
-	
+
+		<id property="id" column="key" />
+		<id property="idUser" column="id_user" />
+		<result property="sshUser" column="ssh_user" />
+		<result property="sshHost" column="ssh_host" />
+		<result property="sshPassword" column="ssh_password" />
+		<result property="creationDate" column="creation_date" />
+
 	</resultMap>
 	
-		<select id="getUserProperties" parameterType="string" resultMap="UserPropertiesResult">
-			SELECT * 
-			FROM User_Properties 
-			WHERE id_user = #{idUser}
-		</select>
+	<resultMap type="UserProperties" id="UserPropertiesResultWithoutPassword">
+
+		<id property="id" column="key" />
+		<id property="idUser" column="id_user" />
+		<result property="sshUser" column="ssh_user" />
+		<result property="sshHost" column="ssh_host" />
+		<result property="creationDate" column="creation_date" />
+
+	</resultMap>
+
+ 	<select id="getUserProperties" parameterType="Long"
+		resultMap="UserPropertiesResult">
+		SELECT *
+		FROM User_Properties
+		WHERE id = #{id}
+	</select>
 	
+	<select id="getUserPropertiesWithoutPassword" parameterType="Long"
+		resultMap="UserPropertiesResultWithoutPassword">
+		SELECT *
+		FROM User_Properties
+		WHERE id = #{id}
+	</select>
+
+	<insert id="insertUserProperties" parameterType="UserProperties"
+		useGeneratedKeys="true" keyProperty="id">
+
+		INSERT INTO User_Properties(id_user,ssh_user,ssh_host,ssh_password)
+		VALUES(#{idUser},#{sshUser},#{sshHost},#{sshPassword})
+
+	</insert>
+
+ 	<delete id="deleteUserProperties" parameterType="Long">
+		DELETE
+		FROM User_Properties
+		WHERE id = #{id}
+	</delete>
+
+	<select id="getUserPropertiesByUser" parameterType="Long"
+		resultMap="UserPropertiesResult">
+		SELECT *
+		FROM User_Properties
+		WHERE id_user = #{idUser}
+	</select> 
+	
+	<select id="getUserPropertiesByUserWithoutPassword" parameterType="Long"
+		resultMap="UserPropertiesResultWithoutPassword">
+		SELECT *
+		FROM User_Properties
+		WHERE id_user = #{idUser}
+	</select> 
+
 </mapper>

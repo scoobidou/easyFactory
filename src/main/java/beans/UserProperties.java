@@ -1,6 +1,12 @@
 package beans;
 
+import java.security.Key;
 import java.sql.Timestamp;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
+import security.SecurityUtils;
 
 public class UserProperties {
 
@@ -9,8 +15,7 @@ public class UserProperties {
 	private String sshHost;
 	private String sshUser;
 	private String sshPassword;
-	private Boolean isDefined;
-	private Timestamp creation_date;
+	private Timestamp creationDate;
 	
 	public Long getId() {
 		return id;
@@ -42,17 +47,22 @@ public class UserProperties {
 	public void setSshPassword(String sshPassword) {
 		this.sshPassword = sshPassword;
 	}
-	public Boolean getIsDefined() {
-		return isDefined;
+	public Timestamp getCreationDate() {
+		return creationDate;
 	}
-	public void setIsDefined(Boolean isDefined) {
-		this.isDefined = isDefined;
+	public void setCreation_date(Timestamp creationDate) {
+		this.creationDate = creationDate;
 	}
-	public Timestamp getCreation_date() {
-		return creation_date;
-	}
-	public void setCreation_date(Timestamp creation_date) {
-		this.creation_date = creation_date;
+	@Override
+	public String toString() {
+		
+		try{
+			sshPassword = SecurityUtils.decrypt(sshPassword);
+		}catch(Exception e){
+			return null;
+		}
+		return "UserProperties [id=" + id + ", idUser=" + idUser + ", sshHost=" + sshHost + ", sshUser=" + sshUser
+				+ ", sshPassword=" + sshPassword + ", creationDate=" + creationDate + "]";
 	}
 	
 }
