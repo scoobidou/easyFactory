@@ -29,14 +29,6 @@
 	 	<servlet-name>TeamPage</servlet-name>
 	 	<url-pattern>/team</url-pattern>
 	 </servlet-mapping>
-	 <servlet>
-	 	<servlet-name>GestionAPIInfo</servlet-name>
-	 	<servlet-class>servlet.GestionAPIInfo</servlet-class>
-	 </servlet>
-	 <servlet-mapping>
-	 	<servlet-name>GestionAPIInfo</servlet-name>
-	 	<url-pattern>/api_info</url-pattern>
-	 </servlet-mapping>
 	 <!--Webjars Servlet-->
 <servlet>
     <servlet-name>WebjarsServlet</servlet-name>

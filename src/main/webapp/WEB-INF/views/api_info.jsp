@@ -1,5 +1,6 @@
-%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <t:genericPage>
     <jsp:attribute name="header">
@@ -12,18 +13,26 @@
     	<br>
     	<div class="container">
     		<div class="jumbotron">
-    			<p>DOCKER API - INFORMATIONS</p>
+    			<p>Dashboard Docker</p>
     		</div>
     	</div>
+    	<%@ include file="/WEB-INF/views/forms/docker_host_form.jsp" %>
     	<div class="container">
     		<p>
     		${messages}
             </p>
     	</div>
-    	
     	<div class="container">
     		<p>
-    		Liste des containers : 	${info}
+    		<c:forEach var="container" items="${requestScope.containerList}">
+    			<c:out value="${container.name}"/>
+    			<br>
+    		</c:forEach>
+            </p>
+    	</div>
+    	<div class="container">
+    		<p>
+    		${docker_host}
             </p>
     	</div>
     </jsp:body>
