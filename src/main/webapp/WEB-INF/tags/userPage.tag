@@ -16,12 +16,10 @@
 	<body>
 			<div class="row">
 	      		<div class="col-sm-2">
-	      			<br>
-	      			<br>
 					<ul id="sidebar" class="nav nav-stacked affix">
-			            <li><a href="#">Dashboard</a></li>
-			            <li><a href="#">Service shop</a></li>
-			            <li><a href="#">Auto install</a></li>
+			            <li><a href="api_info">Dashboard</a></li>
+			            <li><a href="serviceShop">Service shop</a></li>
+			            <li><a href="setupEnv">Auto install</a></li>
 
 			</div>
 

@@ -58,6 +58,7 @@ public class GestionAPIInfo extends HttpServlet {
 		
 		for (int i = 0 ; i < jArray.size(); i++ ){
 			Container container = new Container(jArray.get(i).getAsJsonObject());
+			System.out.println(container);
 			containerList.add(container);
 		}
 		

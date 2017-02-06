@@ -113,9 +113,13 @@ public class Container {
 		this.command = jso.get("Command").getAsString();
 		this.state = jso.get("State").getAsString();
 		this.status = jso.get("Status").getAsString();
-		this.ip = jArrayPorts.get(0).getAsJsonObject().get("IP").getAsString();
-		this.privatePort = jArrayPorts.get(0).getAsJsonObject().get("PrivatePort").getAsString();
-		this.publicPort = jArrayPorts.get(0).getAsJsonObject().get("PublicPort").getAsString();
+		try{
+			this.ip = jArrayPorts.get(0).getAsJsonObject().get("IP").getAsString();
+			this.privatePort = jArrayPorts.get(0).getAsJsonObject().get("PrivatePort").getAsString();
+			this.publicPort = jArrayPorts.get(0).getAsJsonObject().get("PublicPort").getAsString();
+		}catch(Exception e){
+			
+		}
 		this.type = jArrayPorts.get(0).getAsJsonObject().get("Type").getAsString();
 	}
 

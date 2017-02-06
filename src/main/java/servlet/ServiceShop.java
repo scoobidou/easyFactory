@@ -89,73 +89,78 @@ public class ServiceShop extends HttpServlet {
 	
 	public String composeFile(List<Long> serviceIdList){
 		
-		String versionning = null;
-		String authentification = null;
-		String database = null;
-		String databaseManager = null;
-		List<String> qualityList = new ArrayList<>();
-		
-		String result = null;
-		SqlSession sqlSession = MyBatisUtils.getSqlSessionFactory().openSession();
-		
 		StringBuilder str = new StringBuilder();
-		str.append("version:&nbsp;'2'<br>\n&nbsp;<br>\n&nbsp;services:<br>\n&nbsp;<br>\n");
 		
-		List<AvaibleService> avaibleServiceList = new ArrayList<>();
-		try {
-			AvaibleService avaibleService = new AvaibleService();
-			AvaibleServiceMapper asm = sqlSession.getMapper(AvaibleServiceMapper.class);
-			
-			avaibleServiceList = asm.getAvaibleServicesById(serviceIdList);
-		}
-		finally{
-			sqlSession.close();
-		}
+		str.append("version:&nbsp;'2'<br>\n<br>\nservices:<br>\n&nbsp;&nbsp;&nbsp;openldap:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;osixia/openldap:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;ldap<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;environment:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;LDAP_ORGANISATION=eseocr<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;LDAP_DOMAIN=eseocr.com<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;LDAP_ADMIN_PASSWORD=Network<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;LDAP_TLS=false<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;volumes:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;ldap-data:/var/lib/ldap<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;ldap-config:/etc/ldap/slapd.d<br>\n<br>\n&nbsp;&nbsp;&nbsp;phpldapadmin:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;osixia/phpldapadmin:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;phpldapadmin<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;environment:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;PHPLDAPADMIN_LDAP_HOSTS=ldap-host<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8092:443\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;openldap:ldap-host<br>\n<br>\n&nbsp;&nbsp;&nbsp;mysql:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;mysql:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;mysql<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;environment:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;MYSQL_ROOT_PASSWORD=network<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8081:3306\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;volumes:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;mysql-data:/var/lib/mysql<br>\n<br>\n&nbsp;&nbsp;&nbsp;phpmyadmin:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;phpmyadmin/phpmyadmin:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;phpmyadmin<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8082:80\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;mysql:db<br>\n<br>\n&nbsp;&nbsp;&nbsp;gitlab:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;gitlab/gitlab-ce:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;gitlab<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8083:80\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8088:443\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8089:22\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;volumes:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;/srv/gitlab/config:/var/opt/gitlab&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;For&nbsp;storing&nbsp;application&nbsp;data<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;/srv/gitlab/logs:/var/log/gitlab&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;For&nbsp;storing&nbsp;logs<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;/srv/gitlab/data:/etc/gitlab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;For&nbsp;storing&nbsp;the&nbsp;GitLab&nbsp;configuration&nbsp;files<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>\n&nbsp;&nbsp;&nbsp;jenkins:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;jenkins:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;jenkins<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8084:8080\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"50000:50000\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;volumes:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;jenkins-data:/var/jenkins_home<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;gitlab<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;sonar<br>\n<br>\n&nbsp;&nbsp;&nbsp;sonar:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;sonarqube:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;sonar<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8085:9000\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"9092:9092\"<br>\n<br>\n<br>\n#&nbsp;Volume&nbsp;Docker<br>\n<br>\nvolumes:<br>\n&nbsp;&nbsp;&nbsp;mysql-data:<br>\n&nbsp;&nbsp;&nbsp;jenkins-data:<br>\n&nbsp;&nbsp;&nbsp;ldap-data:<br>\n&nbsp;&nbsp;&nbsp;ldap-config:<br>\n<br>\n#&nbsp;END");
 		
-		for (AvaibleService aS: avaibleServiceList){
-			if("mysql".equals(aS.getServiceName())){
-				database = "mysql";
-			}
-			if("gitlab".equals(aS.getServiceName())){
-				versionning = "gitlab";
-			}
-			if("ldap".equals(aS.getServiceName())){
-				authentification = "ldap";
-			}
-			if("Sonar".equals(aS.getServiceName())){
-				qualityList.add("Sonar");
-			}
-			if("jenkins".equals(aS.getServiceName())){
-				qualityList.add("jenkins");
-			}
-			if("phpmyadmin".equals(aS.getServiceName())){
-				databaseManager = "mysql";
-			}
-		}
 		
-		System.out.println("HELLO " +databaseManager + qualityList.toString() + authentification + versionning + database);
+//		String versionning = null;
+//		String authentification = null;
+//		String database = null;
+//		String databaseManager = null;
+//		List<String> qualityList = new ArrayList<>();
+//		
+//		String result = null;
+//		SqlSession sqlSession = MyBatisUtils.getSqlSessionFactory().openSession();
+//		
+//		StringBuilder str = new StringBuilder();
+//		str.append("version:&nbsp;'2'<br>\n&nbsp;<br>\n&nbsp;services:<br>\n&nbsp;<br>\n");
+//		
+//		List<AvaibleService> avaibleServiceList = new ArrayList<>();
+//		try {
+//			AvaibleService avaibleService = new AvaibleService();
+//			AvaibleServiceMapper asm = sqlSession.getMapper(AvaibleServiceMapper.class);
+//			
+//			avaibleServiceList = asm.getAvaibleServicesById(serviceIdList);
+//		}
+//		finally{
+//			sqlSession.close();
+//		}
+//		
+//		for (AvaibleService aS: avaibleServiceList){
+//			if("mysql".equals(aS.getServiceName())){
+//				database = "mysql";
+//			}
+//			if("gitlab".equals(aS.getServiceName())){
+//				versionning = "gitlab";
+//			}
+//			if("ldap".equals(aS.getServiceName())){
+//				authentification = "ldap";
+//			}
+//			if("Sonar".equals(aS.getServiceName())){
+//				qualityList.add("Sonar");
+//			}
+//			if("jenkins".equals(aS.getServiceName())){
+//				qualityList.add("jenkins");
+//			}
+//			if("phpmyadmin".equals(aS.getServiceName())){
+//				databaseManager = "mysql";
+//			}
+//		}
+//		
+//		System.out.println("HELLO " +databaseManager + qualityList.toString() + authentification + versionning + database);
+//		
+//		if("mysql".equals(database) && "phpmyadmin".equals(databaseManager)){
+//			str.append("&nbsp;&nbsp;&nbsp;mysql:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;mysql:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;mysql<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;environment:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;MYSQL_ROOT_PASSWORD=network<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8081:3306\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;volumes:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;mysql-data:/var/lib/mysql<br>\n<br>\n&nbsp;&nbsp;&nbsp;phpmyadmin:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;phpmyadmin/phpmyadmin:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;phpmyadmin<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8082:80\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;mysql:db");
+//		}
+//		
+//		if("gitlab".equals(versionning)){
+//			str.append("&nbsp;&nbsp;&nbsp;gitlab:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;gitlab/gitlab-ce:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;gitlab<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8083:80\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8088:443\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8089:22\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;volumes:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;gitlab-data:/var/opt/gitlab&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;For&nbsp;storing&nbsp;application&nbsp;data<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;gitlab-data:/var/log/gitlab&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;For&nbsp;storing&nbsp;logs<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;gitlab-data:/etc/gitlab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;For&nbsp;storing&nbsp;the&nbsp;GitLab&nbsp;configuration&nbsp;files");
+//		}
+//		
+//		if(qualityList.contains("Sonar")){
+//			str.append("&nbsp;&nbsp;&nbsp;sonar:<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;sonarqube:latest<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;sonar<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8085:9000\"<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"9092:9092\"");
+//		}
+//		
+//		if(qualityList.contains("jenkins") && "gitlab".equals(versionning) && qualityList.contains("Sonar")){
+//			str.append("&nbsp;&nbsp;&nbsp;jenkins:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;jenkins:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;jenkins<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8084:8080\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"50000:50000\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;volumes:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;jenkins-data:/var/jenkins_home<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;gitlab<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;sonar");
+//		}
+//		
+//		str.append("&nbsp;&nbsp;&nbsp;&nbsp;tomcat:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;tomcat:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;tomcat<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8086:8080\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;jenkins<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;mysql");
+//		
+//		result = str.toString();
 		
-		if("mysql".equals(database) && "phpmyadmin".equals(databaseManager)){
-			str.append("&nbsp;&nbsp;&nbsp;mysql:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;mysql:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;mysql<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;environment:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;MYSQL_ROOT_PASSWORD=network<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8081:3306\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;volumes:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;mysql-data:/var/lib/mysql<br>\n<br>\n&nbsp;&nbsp;&nbsp;phpmyadmin:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;phpmyadmin/phpmyadmin:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;phpmyadmin<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8082:80\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;mysql:db");
-		}
-		
-		if("gitlab".equals(versionning)){
-			str.append("&nbsp;&nbsp;&nbsp;gitlab:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;gitlab/gitlab-ce:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;gitlab<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8083:80\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8088:443\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8089:22\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;volumes:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;gitlab-data:/var/opt/gitlab&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;For&nbsp;storing&nbsp;application&nbsp;data<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;gitlab-data:/var/log/gitlab&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;For&nbsp;storing&nbsp;logs<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;gitlab-data:/etc/gitlab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;For&nbsp;storing&nbsp;the&nbsp;GitLab&nbsp;configuration&nbsp;files");
-		}
-		
-		if(qualityList.contains("Sonar")){
-			str.append("&nbsp;&nbsp;&nbsp;sonar:<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;sonarqube:latest<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;sonar<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8085:9000\"<br>&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"9092:9092\"");
-		}
-		
-		if(qualityList.contains("jenkins") && "gitlab".equals(versionning) && qualityList.contains("Sonar")){
-			str.append("&nbsp;&nbsp;&nbsp;jenkins:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;jenkins:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;jenkins<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8084:8080\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"50000:50000\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;volumes:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;jenkins-data:/var/jenkins_home<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;gitlab<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;sonar");
-		}
-		
-		str.append("&nbsp;&nbsp;&nbsp;&nbsp;tomcat:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;tomcat:latest<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart:&nbsp;always<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name:&nbsp;tomcat<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;\"8086:8080\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;jenkins<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;mysql");
-		
-		result = str.toString();
-		
-		return result;
+		return str.toString();
 	}
 	
 }

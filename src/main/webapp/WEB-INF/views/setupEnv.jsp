@@ -3,17 +3,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-<t:genericPage>
+<t:userPage>
    <jsp:attribute name="header">
    </jsp:attribute>
    <jsp:attribute name="footer">
    </jsp:attribute>
    <jsp:body>
-   <br>
-   <br>
-   <br>
-   <br>
-   <br> 
+   
+   <div class="container">
+   		<div class="jumbotron">
+   			<p><h1 class="text-center">Setup auto</h1></p>
+   		</div>
+  	</div>
+   
    	<div class="container">
    	<c:if test="${setupEnv_error != null}">
         <div class="alert alert-danger" role="alert">
@@ -213,4 +215,4 @@
 			</div>
    		</div>
    </jsp:body>
-</t:genericPage>
+</t:userPage>

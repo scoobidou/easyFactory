@@ -69,43 +69,43 @@
 						    <tbody>
 						    	<tr>
 						    		<td><h5 class="text-center">ID container</h5></td>
-						    		<td><h5 class="text-center">${container.idContainer}</h5></td>
+						    		<td><h5 class="text-left">${container.idContainer}</h5></td>
 						    	</tr>
 						    	<tr>
 						    		<td><h5 class="text-center">Name</h5></td>
-						    		<td><h5 class="text-center">${container.name}</h5></td>
+						    		<td><h5 class="text-left">${container.name}</h5></td>
 						    	</tr>
 						    	<tr>
 						    		<td><h5 class="text-center">Image</h5></td>
-						    		<td><h5 class="text-center">${container.image}</h5></td>
+						    		<td><h5 class="text-left">${container.image}</h5></td>
 						    	</tr>
 						    	<tr>
 						    		<td><h5 class="text-center">Command</h5></td>
-						    		<td><h5 class="text-center">${container.command}</h5></td>
+						    		<td><h5 class="text-left">${container.command}</h5></td>
 						    	</tr>
 						    	<tr>
 						    		<td><h5 class="text-center">State</h5></td>
-						    		<td><h5 class="text-center">${container.state}</h5></td>
+						    		<td><h5 class="text-left">${container.state}</h5></td>
 						    	</tr>
 						    	<tr>
 						    		<td><h5 class="text-center">Status</h5></td>
-						    		<td><h5 class="text-center">${container.status}</h5></td>
+						    		<td><h5 class="text-left">${container.status}</h5></td>
 						    	</tr>
 						    	<tr>
 						    		<td><h5 class="text-center">IP</h5></td>
-						    		<td><h5 class="text-center">${container.ip}</h5></td>
+						    		<td><h5 class="text-left">${container.ip}</h5></td>
 						    	</tr>
 						    	<tr>
 						    		<td><h5 class="text-center">Private Port</h5></td>
-						    		<td><h5 class="text-center">${container.privatePort}</h5></td>
+						    		<td><h5 class="text-left">${container.privatePort}</h5></td>
 						    	</tr>
 						    	<tr>
 						    		<td><h5 class="text-center">Public Port</h5></td>
-						    		<td><h5 class="text-center">${container.publicPort}</h5></td>
+						    		<td><h5 class="text-left">${container.publicPort}</h5></td>
 						    	</tr>
 						    	<tr>
 						    		<td><h5 class="text-center">Type</h5></td>
-						    		<td><h5 class="text-center">${container.type}</h5></td>
+						    		<td><h5 class="text-left">${container.type}</h5></td>
 						    	</tr>
 						    </tbody>
 						  </table>
