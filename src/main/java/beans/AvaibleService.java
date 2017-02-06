@@ -4,12 +4,24 @@ import java.sql.Timestamp;
 
 public class AvaibleService {
 
+	private Long id;
+	private String serviceName;
+	private String type;
+	private Timestamp creationDate;
+	
 	@Override
 	public String toString() {
-		return "AvaibleService [id=" + id + ", serviceName=" + serviceName + ", creationDate=" + creationDate + "]";
+		return "AvaibleService [id=" + id + ", serviceName=" + serviceName + ", type=" + type + ", creationDate="
+				+ creationDate + "]";
 	}
 	public Long getId() {
 		return id;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -26,7 +38,5 @@ public class AvaibleService {
 	public void setCreationDate(Timestamp creationDate) {
 		this.creationDate = creationDate;
 	}
-	private Long id;
-	private String serviceName;
-	private Timestamp creationDate;
+	
 }

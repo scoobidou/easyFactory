@@ -2,28 +2,24 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<t:genericPage>
+<t:userPage>
     <jsp:attribute name="header">
     </jsp:attribute>
     <jsp:attribute name="footer">
     </jsp:attribute>
     <jsp:body>
-    <br><br><br>
-    Hello to our services shop
-    <br>
-    <br>
-    Please select all services you need.
-    <br>
-    Versionning
-    <br>
-    Quality
-    <br>
-    Build, Test
-    <br>
-    Deployement
-    <br>
-    DataBase
-    <br>
-    DataBase Manager
+    	<br>
+		<div class="container">
+    		<div class="jumbotron">
+    			<p><h1 class="text-center">Shop</h1></p>
+    		</div>
+    	</div>
+    	<div class="container">
+    		<%@ include file="/WEB-INF/views/forms/serviceShopForm.jsp" %>
+    	</div>
+    	
+    	<div class="container">
+    		<p>${requestScope.result}</p>
+    	</div>
     </jsp:body>
-</t:genericPage>
+</t:userPage>

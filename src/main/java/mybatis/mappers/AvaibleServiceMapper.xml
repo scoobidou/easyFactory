@@ -7,6 +7,7 @@
 	
 		<id property="id" column="id"/>
 		<result property="serviceName" column="service_name"/>
+		<result property="type" column="type"/>
 		<result property="creationDate" column="creation_date"/>
 	
 	</resultMap>
@@ -20,6 +21,22 @@
 	<select id="getAllAvaibleServices" resultMap="AvaibleServiceResult">
 		SELECT * 
 		FROM avaible_services
+	</select>
+	
+	<select id="getAllAvaibleServicesByType" parameterType="string" resultMap="AvaibleServiceResult">
+		SELECT * 
+		FROM avaible_services
+		WHERE type = #{type}
+	</select>
+	
+	<select id="getAvaibleServicesById" resultMap="AvaibleServiceResult">
+		SELECT * 
+		FROM avaible_services
+		WHERE id in
+		<foreach item="idList" index="idList" collection="list"
+			open="(" separator="," close=")">
+			#{idList}	
+		</foreach>
 	</select>
 	
 </mapper>

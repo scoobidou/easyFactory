@@ -8,8 +8,8 @@ public class Host {
 	public String toString() {
 		return "Host [idHost=" + idHost + ", nbContainers=" + nbContainers + ", nbRunningContainers="
 				+ nbRunningContainers + ", nbPausedContainers=" + nbPausedContainers + ", nbStoppedContainers="
-				+ nbStoppedContainers + ", nbImages=" + nbImages + ", kernelVersion=" + kernelVersion + ", osType="
-				+ osType + ", architecture=" + architecture + "]";
+				+ nbStoppedContainers + ", nbImages=" + nbImages + ", kernelVersion=" + kernelVersion + ", os=" + os
+				+ ", osType=" + osType + ", architecture=" + architecture + "]";
 	}
 
 	private String idHost;
