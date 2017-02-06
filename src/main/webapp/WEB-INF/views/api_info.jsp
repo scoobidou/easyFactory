@@ -8,16 +8,15 @@
     <jsp:attribute name="footer">
     </jsp:attribute>
     <jsp:body>
-    	<br>
-    	<br>
-    	<br>
-    	<div class="container">
+    	
+    	<div class="row">
+    	
+	    	<div class="col-md-8 col-md-offset-1">
+	    	<div class="container">
     		<div class="jumbotron">
     			<p><h1 class="text-center">Dashboard</h1></p>
     		</div>
     	</div>
-    	<div class="row">
-	    	<div class="col-md-8 col-md-offset-1">
 	    	<%@ include file="/WEB-INF/views/forms/docker_host_form.jsp" %>
 	    		<div class="panel panel-default">
 				  <div class="panel-heading"><h3 class="text-center">Docker Host</h3></div>

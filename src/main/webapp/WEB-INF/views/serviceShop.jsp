@@ -3,15 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <t:userPage>
-    <jsp:attribute name="header">
-    </jsp:attribute>
-    <jsp:attribute name="footer">
-    </jsp:attribute>
     <jsp:body>
-    	<br>
-		<div class="container">
+    <div class="row">
+    	<div class="col-md-10 col-md-offset-1">
+					<div class="container">
     		<div class="jumbotron">
-    			<p><h1 class="text-center">Shop</h1></p>
+    			<h1 class="text-center">Shop</h1>
     		</div>
     	</div>
     	<div class="container">
@@ -21,5 +18,9 @@
     	<div class="container">
     		<p>${requestScope.result}</p>
     	</div>
+    </div>
+			    	
+    	</div>
+    	
     </jsp:body>
 </t:userPage>

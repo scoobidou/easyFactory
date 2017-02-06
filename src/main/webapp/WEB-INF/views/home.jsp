@@ -9,9 +9,6 @@
     </jsp:attribute>
     <jsp:body>
     <div class="site-wrapper">
-    	<br>
-    	<br>
-    	<br>
     	<div class="container">
     		<c:if test="${loginInfo != null}">
             <%-- Si l'utilisateur a reussi a se connecter on affiche un message de succès --%>

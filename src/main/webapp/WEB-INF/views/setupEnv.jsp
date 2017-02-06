@@ -10,9 +10,11 @@
    </jsp:attribute>
    <jsp:body>
    
-   <div class="container">
+   <div class="row">
+   		<div class="col-md-8 col-md-offset-1">
+   			<div class="container">
    		<div class="jumbotron">
-   			<p><h1 class="text-center">Setup auto</h1></p>
+   			<h1 class="text-center">Setup auto</h1>
    		</div>
   	</div>
    
@@ -36,7 +38,7 @@
     	<input type="submit" name="reset_button" value="reset"/>
     </form>
     
-    <div class="col-md-8">
+    <div class="col-md-10">
     		<div>
     			<p>${sessionScope.setupEnv_step}</p>
     		</div>
@@ -214,5 +216,8 @@
   				</div>
 			</div>
    		</div>
+   		</div>
+   </div>
+   
    </jsp:body>
 </t:userPage>
