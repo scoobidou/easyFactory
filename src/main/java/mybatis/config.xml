@@ -13,9 +13,9 @@
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
         <property name="driver" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://192.168.4.248:8081/easyfactory"/>
-        <property name="username" value="root"/>
-        <property name="password" value="network"/>
+        <property name="url" value="jdbc:mysql://PORT + HOST /easyfactory"/>
+        <property name="username" value="YOUR USER"/>
+        <property name="password" value="YOUR PASSWORD"/>
       </dataSource>
     </environment>
   </environments>
